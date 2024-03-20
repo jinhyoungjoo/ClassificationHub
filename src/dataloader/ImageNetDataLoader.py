@@ -80,3 +80,16 @@ class ImageNetDataLoader(DataLoader):
         images = torch.cat([image for (image, _) in batch])
         targets = torch.tensor([target for (_, target) in batch])
         return (images, targets)
+
+    def __repr__(self) -> str:
+        information = {
+            "Name": f"{self.__class__.__name__}/{self.split}",
+            "Module": f"{self.__class__.__module__}",
+            "Location": hex(id(self)),
+            "Number of Samples": len(self),
+            "Number of Workers": self.num_workers,
+        }
+
+        return "\n\t".join(
+            [f"{key}: {value}" for key, value in information.items()],
+        )

@@ -44,6 +44,6 @@ def build_dataloader(config: Dict) -> DataLoader:
         Logger.error(f"Error generating {name}\n{e}")
         exit(-1)
 
-    Logger.info(f"Dataloader build success.\n\t{dataloader}")
+    Logger.info(f"Dataloader build success.\n{dataloader}")
 
     return dataloader
