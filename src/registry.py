@@ -49,6 +49,9 @@ class Registry(object):
         Returns:
             Any: The object registered in the registry.
 
+        Raises:
+            KeyError: When the object cannot be found in the registry.
+
         """
         if prefix is None:
             name = name.lower()
