@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import PIL.Image as Image
 import torch
 import torchvision.transforms.functional as F
@@ -26,3 +28,10 @@ def pil_to_tensor(
         tensor_image = tensor_image.unsqueeze(0)
 
     return tensor_image
+
+
+def resize_tensor(
+    image_tensor: torch.Tensor,
+    size: Tuple[int, int],
+) -> torch.Tensor:
+    return F.resize(image_tensor, size=[*size])
