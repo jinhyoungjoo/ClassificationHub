@@ -19,7 +19,7 @@ def build_dataloader(config: Dict) -> DataLoader:
     Args:
         config (Dict): The configuration options for the dataloader. The
           dictionary must include a name field and an optional args field.
-          The name field value is used to search the corresponding ovject
+          The name field value is used to search the corresponding object
           from the registry.
 
     Returns:
