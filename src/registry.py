@@ -1,3 +1,4 @@
+from types import ModuleType
 from typing import Any, Union
 
 
@@ -58,6 +59,30 @@ class Registry(object):
         if object is None:
             raise KeyError(f"No object named '{name}' found in registry!")
 
+        return object
+
+    @classmethod
+    def get_from_module(
+        cls,
+        name: str,
+        module: ModuleType,
+        *args,
+        **kwargs,
+    ) -> Any:
+        """Retrieve the object in the module.
+
+        Args:
+            name (str): The name of the object to retrieve.
+            module (str): The module to search for when finding the object.
+
+        Returns:
+            Any: The object in the module.
+
+        Raises:
+            KeyError: When the object cannot be found in the module.
+
+        """
+        object = getattr(module, name)(*args, **kwargs)
         return object
 
     def __repr__(self) -> str:
