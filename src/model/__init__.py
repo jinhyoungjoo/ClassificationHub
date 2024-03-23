@@ -28,7 +28,7 @@ def build_model(config: Dict) -> torch.nn.Module:
     try:
         name = config["name"]
     except KeyError:
-        Logger.error("Missing name field in dataloader configuration!")
+        Logger.error("Missing name field in model configuration!")
         exit(-1)
 
     name = config.get("name", "")
@@ -66,7 +66,7 @@ def build_optimizer(params, config: Dict) -> torch.optim.Optimizer:
     try:
         name = config["name"]
     except KeyError:
-        Logger.error("Missing name field in dataloader configuration!")
+        Logger.error("Missing name field in optimizer configuration!")
         exit(-1)
 
     name = config.get("name", "")
