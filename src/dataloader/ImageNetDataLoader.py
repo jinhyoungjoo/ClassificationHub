@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 import torch
 import torchvision.transforms as transforms
@@ -23,7 +23,7 @@ class ImageNetDataLoader(DataLoader):
         self,
         root: str,
         split: str,
-        image_size: Tuple[int, int] = (256, 256),
+        image_size: Union[int, Tuple[int, int]] = (256, 256),
         *args,
         **kwargs,
     ) -> None:
@@ -33,8 +33,10 @@ class ImageNetDataLoader(DataLoader):
             root (str): The root directory of the dataset.
             split (str): The dataset split mode. Expected to be one of
               ["train", "val"].
-            image_size (tuple): The image size (height, width) to be processed.
-              All images will be resized to match the given dimensions.
+            image_size (int | tuple): The image size (height, width) to be
+              processed. All images will be resized to match the given
+              dimensions. If the given image size is a single integer, it is
+              assumed to have equal height and width values.
 
         Raises:
             AssertionError: When the split variable is unknown.
@@ -44,7 +46,9 @@ class ImageNetDataLoader(DataLoader):
             raise AssertionError(f"Invalid dataset split mode {split}!")
 
         self.split = split
-        self.image_size = image_size
+        self.image_size = (
+            (image_size, image_size) if type(image_size) is int else image_size
+        )
 
         # TODO: Add more augmentation methods
         self.augment = transforms.Compose(
