@@ -1,5 +1,11 @@
+PYTHONPATH=python3
+
+train:
+	$(PYTHONPATH) train.py -c $(TRAIN_OPTIONS)
+
 test:
-	python -m pytest .
+	$(PYTHONPATH) -m pytest .
+
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
