@@ -92,13 +92,32 @@ class BaseTrainer:
                 if (epoch + 1) % self.save_period == 0:
                     self.save(epoch)
 
-    @abstractmethod
     def train_one_epoch(self, epoch: int):
-        raise NotImplementedError(
-            "Function 'train_one_epoch' not implemented!",
-        )
+        Logger.info(f"Epoch {epoch}")
+        for batch_idx, batch in enumerate(self.train_dataloader):
+            self.total_iters += 1
+
+            loss, loss_dict = self.training_step(batch)
+
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+
+            if batch_idx % self.log_step == 0:
+                for name, value in loss_dict.items():
+                    Logger.scalar(f"train/{name}", value, self.total_iters)
+
+                loss_info = [f"{k}={v:.3f}" for (k, v) in loss_dict.items()]
+                Logger.info(
+                    f"[epoch: {epoch} batch: {batch_idx}] "
+                    f"total_loss={loss.item():.3f} "
+                    f"{' '.join(loss_info)}"
+                )
 
     @abstractmethod
+    def training_step(self, batch: Any):
+        raise NotImplementedError("Function 'training_step' not implemented!")
+
     def validate(self, epoch: int):
         raise NotImplementedError("Function 'validate' not implemented!")
 
