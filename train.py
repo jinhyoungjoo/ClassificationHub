@@ -1,5 +1,6 @@
 import src.utils as utils
-from src.dataloader import build_dataloader
+from src import build_criterion, build_dataloader, build_model, build_optimizer
+from src.trainer import ClassificationTrainer
 
 
 def main(args):
@@ -8,7 +9,20 @@ def main(args):
     train_dataloader = build_dataloader(dataloader_config.get("train", {}))
     validation_dataloader = build_dataloader(dataloader_config.get("val", {}))
 
+    model = build_model(args.get("model", {}))
+    optimizer = build_optimizer(model.parameters(), args.get("optim", {}))
 
+    criterion = build_criterion(args.get("loss", {}))
+
+    trainer = ClassificationTrainer(
+        model,
+        optimizer,
+        criterion,
+        train_dataloader,
+        validation_dataloader,
+        train_config=args.get("train", {}),
+    )
+    trainer.train()
 
 
 if __name__ == "__main__":
