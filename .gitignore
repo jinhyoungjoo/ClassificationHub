@@ -5,6 +5,11 @@
 # Log files and experiment files
 /experiments
 
+.DS_STORE
+._.DS_STORE
+**/.DS_STORE
+**/._.DS_STORE
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
