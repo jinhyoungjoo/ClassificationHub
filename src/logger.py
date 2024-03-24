@@ -45,7 +45,8 @@ class Logger(object):
         cls.run_id_ = strftime("%Y%m%d%H%M%S", localtime())
 
         # Create directories
-        os.makedirs(os.path.join(cls.base_dir_, "logs"), exist_ok=True)
+        os.makedirs(cls.log_dir(), exist_ok=True)
+        os.makedirs(cls.checkpoint_dir(), exist_ok=True)
 
         cls.file_logger_ = Logger.build_filelogger()
 
@@ -117,3 +118,15 @@ class Logger(object):
             return
 
         cls.tb_logger_.add_scalar(tag, value, *args, **kwargs)
+
+    @classmethod
+    def base_dir(cls) -> str:
+        return cls.base_dir_
+
+    @classmethod
+    def log_dir(cls) -> str:
+        return os.path.join(cls.base_dir(), "logs")
+
+    @classmethod
+    def checkpoint_dir(cls) -> str:
+        return os.path.join(cls.base_dir(), "checkpoints")
