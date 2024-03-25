@@ -51,7 +51,7 @@ class Logger(object):
         cls.file_logger_ = Logger.build_filelogger()
 
         if config.get("use_tensorboard", False):
-            tb_logs_path = os.path.join(cls.base_dir_, "tb_logs")
+            tb_logs_path = os.path.join(cls.base_dir_, "tensorboard_logs")
             os.makedirs(tb_logs_path, exist_ok=True)
             cls.tb_logger_ = SummaryWriter(log_dir=tb_logs_path)
 
