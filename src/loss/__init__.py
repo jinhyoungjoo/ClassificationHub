@@ -7,7 +7,6 @@ import torch.nn as nn
 from ..logger import Logger
 from ..registry import Registry
 from ..utils import import_modules
-from .ClassificationLoss import ClassificationLoss
 
 # Scan all files in directory to add modules to registry.
 for module in import_modules(os.path.dirname(__file__)):
@@ -36,12 +35,11 @@ def build_criterion(config: Dict) -> nn.Module:
     parameters = config.get("args", {})
 
     try:
-        module = Registry.get_from_module(
+        criterion = Registry.get_from_module(
             name,
             nn,
             **parameters,
         )
-        criterion = ClassificationLoss(module)
         Logger.info("Criterion build success." f"\n{criterion}")
 
     except AttributeError as e:
