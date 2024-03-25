@@ -76,7 +76,15 @@ class BaseTrainer:
         self.log_step = self.train_config["log_step"]
         self.save_period = self.train_config["save_period"]
 
-        self.validation_metrics = self.validation_config.get("metrics", [])
+        self.validation_metrics = {}
+        for name in self.validation_config.get("metrics", []):
+            try:
+                self.validation_metrics[name] = Registry.get(
+                    name,
+                    prefix="metrics",
+                )
+            except KeyError:
+                continue
 
     def train(self):
         for epoch in range(self.start_epoch, self.num_epochs + 1):
